@@ -1,0 +1,143 @@
+﻿@*
+  *  The purpose of this Razor Page is to display the requested counts and dates
+  *  in a format that is readable and easy to port to any existing webpage. 
+*@
+
+@model List<BP_CalHFA.Data.CalHFA>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">File Review Status</h1>
+    <p>California Housing Finance Agency Testing Grounds</p>
+</div>
+
+<style>
+    .content-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        min-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+        .content-table thead tr {
+            background-color: #dfe6e9;
+            color: #2d3436;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .content-table tbody td {
+            background-color: #2d3436;
+            color: #ffffff;
+        }
+
+        .content-table th,
+        .content-table td {
+            padding: 7px 7px;
+        }
+</style>
+
+
+<table class="content-table">
+    <thead>
+        <tr>
+            <th>Compliance Count</th>
+            <th>Date</th>
+            <th>Compliance Suspsense Count</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+
+            int complianceLoansInLineCounter = 0;
+            string complianceLoansInLineStatusDate = "";
+            int suspenseLoansInLineCounter = 0;
+            string suspenseLoansInLineDate = "";
+            int postClosingLoansInLineCounter = 0;
+            string postClosingLoansInDate = "";
+            int postClosingSuspenseLoansInLineCounter = 0;
+            string postClosingSuspenseLoansInDate = "";
+
+            int dateHolder1 = 0;
+            int dateHolder2 = 0;
+            int dateHolder3 = 0;
+            int dateHolder4 = 0;
+
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    if (@item.StatusCode.ToString().EndsWith("10") && item.LoanCategoryID == 1)
+                    {
+                        complianceLoansInLineCounter++;
+                        if (dateHolder1 < 1)
+                        {
+                            complianceLoansInLineStatusDate = @item.StatusDate;
+                            dateHolder1++;
+                        }
+                    }
+                    if (@item.StatusCode.ToString().EndsWith("22") && item.LoanCategoryID == 1)
+                    {
+                        suspenseLoansInLineCounter++;
+                        if (dateHolder2 < 1)
+                        {
+                            suspenseLoansInLineDate = @item.StatusDate;
+                            dateHolder2++;
+                        }
+                    }
+                    if (@item.StatusCode.ToString().EndsWith("10") && item.LoanCategoryID == 2)
+                    {
+                        postClosingLoansInLineCounter++;
+                        if (dateHolder3 < 1)
+                        {
+                            postClosingLoansInDate = @item.StatusDate;
+                            dateHolder3++;
+                        }
+                    }
+                    if (@item.StatusCode.ToString().EndsWith("22") && item.LoanCategoryID == 2)
+                    {
+                        postClosingSuspenseLoansInLineCounter++;
+                        if (dateHolder4 < 1)
+                        {
+                            postClosingSuspenseLoansInDate = @item.StatusDate;
+                            dateHolder4++;
+                        }
+                    }
+                }
+                <tr>
+                    <td>@complianceLoansInLineCounter</td>
+                    <td>@complianceLoansInLineStatusDate</td>
+                    <td>@suspenseLoansInLineCounter</td>
+                    <td>@suspenseLoansInLineDate</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<table class="content-table">
+    <thead>
+        <tr>
+            <th>Purchase Count</th>
+            <th>Date</th>
+            <th>Purchase Suspense Count</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            <tr>
+                <td>@postClosingLoansInLineCounter</td>
+                <td>@postClosingLoansInDate</td>
+                <td>@postClosingSuspenseLoansInLineCounter</td>
+                <td>@postClosingSuspenseLoansInDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
