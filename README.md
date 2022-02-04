@@ -1,4 +1,4 @@
-# BP-CalHFA
+# Loan Retrieval API
 A data retrieval API combined with a web interface.  
 Pulls client specified values from a database and displays the result in multiple formats as well as the raw JSON. 
 
