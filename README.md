@@ -10,8 +10,6 @@ Pulls client specified values from a database and displays the result in multipl
 
 `Restful API Architecture style`
 
-`Microsoft Visual Studio`
-
 `Razor Pages`
 
 `MySQL Workbench`
